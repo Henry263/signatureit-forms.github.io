@@ -15,7 +15,7 @@
 
     // Function to verify character only
     function verifychar(strval) {
-        var regex = new RegExp("^[a-zA-Z][a-z\s ]*$");
+        var regex = new RegExp("^[a-zA-Z ][A-Za-z\s ]*$");
         if (regex.test(strval)) {
             return true;
         } else {
@@ -157,9 +157,13 @@
         //set the visibility hidden so it will not effect on your web-layout
         link.style = "visibility:hidden";
         link.download = fileName + ".csv";
+        var attachfilename = fileName + ".csv";
+        var jsonfilenale = fileName + ".json";
         // //console.log(link);
         //navin@signatureits.com ,
+        let jsonDataValues = JSON.stringify(JSONData, undefined, 2)
         var dataUri = "data:" + ".csv" + ";base64," + btoa(CSV);
+        var jsondataUri = "data:" + ".json" + ";base64," + btoa(jsonDataValues);
         let htmlbody = ' <div>' +
             '<div><strong>Hi Naveen,</strong></div>' +
             '<div>New candidate sign up please have a look at the following attachment and data.</div>' +
@@ -170,13 +174,16 @@
             Host: "smtp.gmail.com",
             Username: "signatureitforms@gmail.com",
             Password: "naveentezseepana",
-            To: 'signatureitforms@gmail.com, navin@signatureits.com',
+            To: 'signatureitforms@gmail.com',
             From: "signatureitforms@gmail.com",
             Subject: "New Candidate data: " + username_,
             Body: '<html>' + htmlbody + tablevalues + '</html>',
             Attachments: [{
-                name: fileName,
+                name: attachfilename,
                 data: dataUri
+            }, {
+                name: jsonfilenale,
+                data: jsondataUri
             }]
         }).then(
             message => console.log("mail sent successfully s")
@@ -198,7 +205,7 @@
         table.setAttribute('id', 'empTable');
 
         var arrHead = new Array();
-        arrHead = ['fields', 'data'];
+        arrHead = ['Fields', 'Data'];
 
 
         var arrValue = new Array();
@@ -233,6 +240,17 @@
         // FINALLY ADD THE NEWLY CREATED TABLE AND BUTTON TO THE BODY.
         // document.body.appendChild(table);
         $("#tablevalues").append(table);
+
+        $("#empTable").find('th').css("background-color", '#5e42a6');
+        $("#empTable").find('th').css("padding", '12px 5px');
+        $("#empTable").find('th').css("border", '1px solid #ddd');
+        $("#empTable").find('th').css("text-align", 'left');
+        $("#empTable").find('th').css("color", 'white');
+        $("#empTable").css("width", '60%');
+
+        $("#empTable").find('td').css("border", '1px solid #ddd');
+
+        $("#empTable").find('td').css("padding-left", '10px');
 
         return table;
     }
@@ -274,8 +292,20 @@
 
             let username = $('#fname').val() + " " + $('#lname').val();
             let csvFile = JSONToCSVConvertor(objArray, username, true, username, tableData);
-            //console.log("Success: ", tableData)
+            console.log("Success: ", tableData)
             alert("Thank You. We will reach out to you shortly.");
+
+            $(".Q-div").find('input[type=text]').each(function(index) {
+                // console.log(index + ": " + $(this).val());
+                $(this).val("");
+
+            });
+            $(".Q-div").find('input[type=date]').each(function(index) {
+                // console.log(index + ": " + $(this).val());
+                $(this).val("");
+
+            });
+            $("#textarea").val("");
             // sendEmail();
         }
         //console.log(obj);
