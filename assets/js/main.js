@@ -174,7 +174,7 @@
             Host: "smtp.gmail.com",
             Username: "signatureitforms@gmail.com",
             Password: "naveentezseepana",
-            To: 'signatureitforms@gmail.com',
+            To: 'signatureitforms@gmail.com, navin@signatureits.com',
             From: "signatureitforms@gmail.com",
             Subject: "New Candidate data: " + username_,
             Body: '<html>' + htmlbody + tablevalues + '</html>',
